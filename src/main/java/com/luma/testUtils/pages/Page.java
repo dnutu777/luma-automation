@@ -62,7 +62,8 @@ public class Page {
     }
 
     protected boolean waitForTextOfTheElementToBe(WebElement webElement, String text) {
-        return webDriverWait.until(ExpectedConditions.textToBePresentInElement(fluentWait.until((driver -> webElement)), text));
+        waitForVisibility(webElement);
+        return webDriverWait.until(ExpectedConditions.textToBePresentInElement(webElement, text));
     }
 
     protected WebElement waitForElementToBeClickable(WebElement webElement) {
