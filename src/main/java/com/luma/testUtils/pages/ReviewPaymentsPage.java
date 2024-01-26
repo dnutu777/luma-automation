@@ -34,7 +34,7 @@ public class ReviewPaymentsPage extends Page {
     private WebElement shippingMethodEditButton;
     @FindBy(css = "span[data-bind='text: getTitle()']")
     private WebElement paymentMethod;
-    @FindBy(css = "div[data-bind='visible: canUseShippingAddress()']")
+    @FindBy(name = "billing-address-same-as-shipping")
     private WebElement billingAndShippingAddressAreTheSameCheckbox;
     @FindBy(className = "billing-address-details")
     private WebElement billingAddressDetails;
