@@ -1,4 +1,5 @@
 package com.luma.core.customExceptions;
+
 public class ConfigException extends RuntimeException {
 
     public ConfigException(String message) {

@@ -2,9 +2,10 @@ package com.luma.testUtils.testObjects;
 
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
-public class Item {
+public class ItemDetails {
     private String itemTitle;
     private String itemPrice;
     private String itemQuantity;

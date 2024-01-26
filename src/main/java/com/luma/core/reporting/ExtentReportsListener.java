@@ -9,6 +9,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.annotations.Test;
+
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,7 +45,7 @@ public class ExtentReportsListener implements ITestListener {
             extentTest.assignCategory(group);
         }
 
-        synchronized(this) {
+        synchronized (this) {
             ThreadLocal<ExtentTest> extentTestThreadLocal = testMap.getOrDefault(methodName, new ThreadLocal<>());
             extentTestThreadLocal.set(extentTest);
             testMap.put(methodName, extentTestThreadLocal);

@@ -3,14 +3,16 @@ package com.luma.testUtils.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
+
 public class CartPage extends Page {
     @FindBy(id = "top-cart-btn-checkout")
     private WebElement proceedToCheckoutButton;
     @FindBy(className = "item-qty")
     private List<WebElement> quantityFieldsList;
     @FindBy(css = ".amount > span > span")
-    private WebElement cartSubTotal;
+    private WebElement cartSubtotal;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -26,7 +28,7 @@ public class CartPage extends Page {
         return getTextFromElement(quantityFieldsList.get(itemIndex));
     }
 
-    public String getCartSubTotal() {
-        return getTextFromElement(cartSubTotal);
+    public String getCartSubtotal() {
+        return getTextFromElement(cartSubtotal);
     }
 }

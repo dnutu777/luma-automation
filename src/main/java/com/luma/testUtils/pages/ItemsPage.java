@@ -3,8 +3,11 @@ package com.luma.testUtils.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
+
 public class ItemsPage extends Page {
     @FindBy(className = "details")
     private List<WebElement> itemDetailsList;
@@ -36,11 +39,8 @@ public class ItemsPage extends Page {
     }
 
     public void clickOnAddToCartButton(int itemIndex) {
-        clickOn(waitForElementToBeClickable(itemDetailsList.get(itemIndex).findElement(By.xpath("div[3]//button"))));
+        waitForVisibilityOfAllElements(itemDetailsList);
+        new Actions(driver).moveToElement(itemDetailsList.get(itemIndex).findElement(By.xpath("div[3]//button"))).click().build().perform();
         waitForLoadingToFinish();
-    }
-
-    public WebElement getItemDetails(int itemIndex) {
-        return waitForVisibilityOfAllElements(itemDetailsList).get(itemIndex);
     }
 }

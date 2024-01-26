@@ -1,6 +1,6 @@
 package com.luma.testUtils.pages;
 
-import com.luma.testUtils.testObjects.Shipping;
+import com.luma.testUtils.testObjects.ShippingDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -57,61 +57,51 @@ public class ShippingPage extends Page {
         super(driver);
     }
 
-    public boolean checkShippingMethodErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(shippingMethodErrorMessage)).equals(message);
-    }
-    public boolean checkEmailFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(emailAddressField.findElement(By.xpath("following-sibling::div[1]")))).equals(message);
-    }
-
-    public boolean checkFirstNameFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(firstNameField.findElement(By.xpath("following-sibling::div")))).equals(message);
-    }
-
-    public boolean checkLastNameFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(lastNameField.findElement(By.xpath("following-sibling::div")))).equals(message);
-    }
-
-    public boolean checkCompanyFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(companyField.findElement(By.xpath("following-sibling::div")))).equals(message);
-    }
-
-    public boolean checkFirstAddressFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(firstStreetAddressField.findElement(By.xpath("following-sibling::div")))).equals(message);
-    }
-
-    public boolean checkSecondAddressFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(secondStreetAddressField.findElement(By.xpath("following-sibling::div")))).equals(message);
-    }
-
-    public boolean checkThirdAddressFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(secondStreetAddressField.findElement(By.xpath("following-sibling::div")))).equals(message);
+    public boolean checkErrorMessage(String field, String message) {
+        switch (field) {
+            case "Shipping Method":
+                return getTextFromElement(waitForVisibility(shippingMethodErrorMessage)).equals(message);
+            case "Email":
+                return getTextFromElement(waitForVisibility(emailAddressField.findElement(By.xpath("following-sibling::div[1]")))).equals(message);
+            case "First Name":
+                return getTextFromElement(waitForVisibility(firstNameField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "Last Name":
+                return getTextFromElement(waitForVisibility(lastNameField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "Company":
+                return getTextFromElement(waitForVisibility(companyField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "First Address":
+                return getTextFromElement(waitForVisibility(firstStreetAddressField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "Second Address":
+                return getTextFromElement(waitForVisibility(secondStreetAddressField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "Third Address":
+                return getTextFromElement(waitForVisibility(thirdStreetAddressField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "City":
+                return getTextFromElement(waitForVisibility(cityField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "State/Province":
+                return getTextFromElement(waitForVisibility(stateProvinceDropdown.findElement(By.xpath("following-sibling::div")))).equals(message);
+            case "Zip/Postal Code":
+                return getTextFromElement(waitForVisibility(zipPostalCodeField.findElement(By.xpath("following-sibling::div")))).equals(message);
+            default:
+                return getTextFromElement(waitForVisibility(phoneNumberField.findElement(By.xpath("following-sibling::div[2]")))).equals(message);
+        }
     }
 
-    public boolean checkCityFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(cityField.findElement(By.xpath("following-sibling::div")))).equals(message);
+    public void clickOnButton(String button) {
+        switch (button) {
+            case "Next":
+                clickOn(nextButton);
+                waitForLoadingToFinish();
+                break;
+            default:
+                clickOn(itemInCartButton);
+        }
     }
 
-    public boolean checkStateProvinceDropdownErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(stateProvinceDropdown.findElement(By.xpath("following-sibling::div")))).equals(message);
-    }
-
-    public boolean checkZipPostalCodeFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(zipPostalCodeField.findElement(By.xpath("following-sibling::div")))).equals(message);
-    }
-
-    public boolean checkPhoneNumberFieldErrorMessage(String message) {
-        return getTextFromElement(waitForVisibility(phoneNumberField.findElement(By.xpath("following-sibling::div[2]")))).equals(message);
-    }
-
-    public void clickOnNextButton() {
-        clickOn(nextButton);
-        waitForLoadingToFinish();
-    }
-
-    public Shipping selectShippingMethod(int shippingMethodIndex) {
+    public ShippingDetails selectShippingMethod(int shippingMethodIndex) {
         clickOn(waitForVisibilityOfAllElements(shippingMethodsList).get(shippingMethodIndex));
-        Shipping shipping = new Shipping();
+        waitForLoadingToFinish();
+
+        ShippingDetails shipping = new ShippingDetails();
         shipping.setPrice(getTextFromElement(shippingMethodsList.get(shippingMethodIndex).findElement(By.xpath("td[2]/span/span"))));
         shipping.setMethod(getTextFromElement(shippingMethodsList.get(shippingMethodIndex).findElement(By.xpath("td[3]"))));
         shipping.setCarrier(getTextFromElement(shippingMethodsList.get(shippingMethodIndex).findElement(By.xpath("td[4]"))));
@@ -119,45 +109,51 @@ public class ShippingPage extends Page {
         return shipping;
     }
 
-    public void enterEmail(String input) {
-        enterInputInField(emailAddressField, input);
+    public void clearField(String field) {
+        switch (field) {
+            case "Email":
+                clearField(emailAddressField);
+                break;
+            case "First Name":
+                clearField(firstNameField);
+                break;
+            default:
+                clearField(lastNameField);
+        }
     }
 
-    public void enterFirstName(String input) {
-        enterInputInField(firstNameField, input);
-    }
-
-    public void enterLastName(String input) {
-        enterInputInField(lastNameField, input);
-    }
-
-    public void enterCompany(String input) {
-        enterInputInField(companyField, input);
-    }
-
-    public void enterFirstAddress(String input) {
-        enterInputInField(firstStreetAddressField, input);
-    }
-
-    public void enterSecondAddress(String input) {
-        enterInputInField(secondStreetAddressField, input);
-    }
-
-    public void enterThirdAddress(String input) {
-        enterInputInField(thirdStreetAddressField, input);
-    }
-
-    public void enterCity(String input) {
-        enterInputInField(cityField, input);
-    }
-
-    public void enterZipPostalCode(String input) {
-        enterInputInField(zipPostalCodeField, input);
-        waitForLoadingToFinish();
-    }
-
-    public void enterPhoneNumber(String input) {
-        enterInputInField(phoneNumberField, input);
+    public void enterInputInField(String field, String input) {
+        switch (field) {
+            case "Email":
+                enterInputInField(emailAddressField, input);
+                break;
+            case "First Name":
+                enterInputInField(firstNameField, input);
+                break;
+            case "Last Name":
+                enterInputInField(lastNameField, input);
+                break;
+            case "Company":
+                enterInputInField(companyField, input);
+                break;
+            case "First Address":
+                enterInputInField(firstStreetAddressField, input);
+                break;
+            case "Second Address":
+                enterInputInField(secondStreetAddressField, input);
+                break;
+            case "Third Address":
+                enterInputInField(thirdStreetAddressField, input);
+                break;
+            case "Zip/Postal Code":
+                enterInputInField(zipPostalCodeField, input);
+                break;
+            case "City":
+                enterInputInField(cityField, input);
+                break;
+            default:
+                enterInputInField(phoneNumberField, input);
+        }
     }
 
     public void clickOnTooltip(int tooltipIndex) {
@@ -166,10 +162,6 @@ public class ShippingPage extends Page {
 
     public boolean checkIfTooltipIsDisplayed(int tooltipIndex, String tooltipContent) {
         return getTextFromElement(tooltipsContentList.get(tooltipIndex)).equals(tooltipContent);
-    }
-
-    public void clickOnItemInCartButton() {
-        clickOn(itemInCartButton);
     }
 
     public void clickOnViewDetailsButton(int itemIndex) {

@@ -4,6 +4,7 @@ import com.luma.core.customExceptions.ConfigException;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -23,6 +24,7 @@ public class Config {
     public Config() {
         loadConfigProperties();
         this.env = determineEnvironment();
+        loadCredentials();
     }
 
     private String determineEnvironment() {
@@ -41,6 +43,19 @@ public class Config {
             logger.info("Configuration properties loaded successfully from {}", CONFIG_FILE_NAME);
         } catch (IOException ex) {
             throw new ConfigException("Unable to load configuration properties file: " + CONFIG_FILE_NAME, ex);
+        }
+    }
+
+    private void loadCredentials() {
+        String credentialsFileName = "credentials/" + this.env + CREDENTIALS_FILE_PREFIX;
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(credentialsFileName)) {
+            if (input == null) {
+                throw new ConfigException("Credentials file not found for environment: " + credentialsFileName);
+            }
+            credentials.load(input);
+            logger.info("Credentials loaded successfully for environment: {}", this.env);
+        } catch (IOException ex) {
+            throw new ConfigException("Unable to load credentials file for environment: " + credentialsFileName, ex);
         }
     }
 }

@@ -8,8 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
+
 import java.net.MalformedURLException;
 import java.util.Properties;
+
 @Listeners(ExtentReportsListener.class)
 public class UiTestBase {
     @Getter
@@ -30,10 +32,10 @@ public class UiTestBase {
 
     @AfterMethod
     protected void tearDown() {
-//        if (driverThreadLocal.get() != null) {
-//            driverThreadLocal.get().quit();
-//            driverThreadLocal.remove();
-//        }
+        if (driverThreadLocal.get() != null) {
+            driverThreadLocal.get().quit();
+            driverThreadLocal.remove();
+        }
     }
 
     protected void openApplication() {

@@ -2,6 +2,7 @@ package com.luma.core.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
+
 public class HexColorToString {
     private static final Map<String, String> colorMap = new HashMap<>();
 
